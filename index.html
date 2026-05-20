@@ -1,0 +1,722 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Meta Ads Complete Performance Diary</title>
+<link href="https://fonts.googleapis.com/css2?family=Syne:wght@700;800&family=DM+Sans:ital,wght@0,300;0,400;0,500;1,300&display=swap" rel="stylesheet">
+<style>
+  :root {
+    --bg: #080810;
+    --s1: #0f0f1a;
+    --s2: #161622;
+    --border: #1e1e2e;
+    --accent: #5b6ef5;
+    --text: #dcdcee;
+    --muted: #52526e;
+    --ex: #818cf8; --ex-bg: rgba(91,110,245,0.12); --ex-b: rgba(91,110,245,0.25);
+    --g:  #34d399; --g-bg:  rgba(16,185,129,0.12); --g-b:  rgba(16,185,129,0.25);
+    --vg: #6ee7b7; --vg-bg: rgba(16,185,129,0.2);  --vg-b: rgba(16,185,129,0.35);
+    --av: #fbbf24; --av-bg: rgba(245,158,11,0.12); --av-b: rgba(245,158,11,0.25);
+    --po: #f87171; --po-bg: rgba(239,68,68,0.12);  --po-b: rgba(239,68,68,0.25);
+  }
+  *{margin:0;padding:0;box-sizing:border-box;}
+  body{
+    background:var(--bg);
+    color:var(--text);
+    font-family:'DM Sans',sans-serif;
+    padding:48px 20px 100px;
+    background-image:
+      radial-gradient(ellipse at 15% 5%, rgba(91,110,245,0.07) 0%,transparent 55%),
+      radial-gradient(ellipse at 85% 90%, rgba(124,58,237,0.05) 0%,transparent 55%);
+  }
+  .wrap{max-width:820px;margin:0 auto;}
+
+  /* ── Header ── */
+  .hdr{text-align:center;margin-bottom:64px;}
+  .hdr-badge{
+    display:inline-block;
+    background:linear-gradient(135deg,rgba(91,110,245,0.18),rgba(124,58,237,0.18));
+    border:1px solid rgba(91,110,245,0.3);
+    color:#a5b4fc;font-size:10px;font-weight:600;
+    letter-spacing:3px;text-transform:uppercase;
+    padding:6px 18px;border-radius:100px;margin-bottom:22px;
+  }
+  .hdr h1{
+    font-family:'Syne',sans-serif;
+    font-size:clamp(28px,5vw,50px);font-weight:800;
+    background:linear-gradient(135deg,#fff 30%,#8b9cf7 80%);
+    -webkit-background-clip:text;-webkit-text-fill-color:transparent;
+    background-clip:text;line-height:1.1;margin-bottom:12px;
+  }
+  .hdr p{color:var(--muted);font-size:14px;line-height:1.6;}
+
+  /* ── TOC ── */
+  .toc{
+    background:var(--s1);border:1px solid var(--border);
+    border-radius:16px;padding:28px 32px;margin-bottom:56px;
+  }
+  .toc h3{
+    font-family:'Syne',sans-serif;font-size:13px;font-weight:700;
+    letter-spacing:3px;text-transform:uppercase;color:var(--accent);margin-bottom:16px;
+  }
+  .toc-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:8px;}
+  .toc-item{
+    display:flex;align-items:center;gap:10px;
+    padding:10px 14px;border-radius:10px;
+    background:var(--s2);border:1px solid var(--border);
+    font-size:13px;color:#9999bb;text-decoration:none;
+    transition:border-color 0.2s,color 0.2s;
+  }
+  .toc-item:hover{border-color:rgba(91,110,245,0.4);color:#c5c9f7;}
+  .toc-num{font-family:'Syne',sans-serif;font-size:11px;color:var(--accent);font-weight:700;min-width:18px;}
+
+  /* ── Section Label ── */
+  .sec{
+    font-size:11px;font-weight:700;letter-spacing:3px;text-transform:uppercase;
+    color:var(--accent);margin:56px 0 18px;
+    display:flex;align-items:center;gap:12px;
+  }
+  .sec::after{content:'';flex:1;height:1px;background:var(--border);}
+
+  /* ── Card ── */
+  .card{
+    background:var(--s1);border:1px solid var(--border);
+    border-radius:16px;padding:26px 28px;margin-bottom:14px;
+    position:relative;overflow:hidden;
+    transition:border-color 0.2s,transform 0.2s;
+  }
+  .card:hover{border-color:rgba(91,110,245,0.25);transform:translateY(-1px);}
+  .card::before{
+    content:'';position:absolute;top:0;left:0;
+    width:3px;height:100%;
+    background:linear-gradient(180deg,var(--accent),#7c3aed);
+  }
+  .card-title{
+    font-family:'Syne',sans-serif;font-size:17px;font-weight:700;
+    color:#fff;margin-bottom:4px;
+  }
+  .card-sub{font-size:12px;color:var(--muted);margin-bottom:6px;}
+  .card-desc{font-size:13px;color:#8888aa;line-height:1.65;margin-bottom:18px;}
+
+  /* ── Table ── */
+  table{width:100%;border-collapse:collapse;font-size:13px;}
+  th{
+    text-align:left;padding:8px 14px;
+    background:#12121e;color:var(--muted);
+    font-size:10px;font-weight:600;letter-spacing:1.5px;text-transform:uppercase;
+  }
+  th:first-child{border-radius:8px 0 0 8px;}
+  th:last-child{border-radius:0 8px 8px 0;}
+  td{padding:10px 14px;border-bottom:1px solid rgba(255,255,255,0.04);color:#b8b8d0;vertical-align:middle;}
+  tr:last-child td{border-bottom:none;}
+
+  /* ── Pills ── */
+  .pill{display:inline-flex;align-items:center;gap:4px;padding:3px 12px;border-radius:100px;font-size:11px;font-weight:600;white-space:nowrap;}
+  .ex{background:var(--ex-bg);color:var(--ex);border:1px solid var(--ex-b);}
+  .vg{background:var(--vg-bg);color:var(--vg);border:1px solid var(--vg-b);}
+  .g {background:var(--g-bg); color:var(--g); border:1px solid var(--g-b);}
+  .av{background:var(--av-bg);color:var(--av);border:1px solid var(--av-b);}
+  .po{background:var(--po-bg);color:var(--po);border:1px solid var(--po-b);}
+
+  /* ── Tip box ── */
+  .tip{
+    background:rgba(91,110,245,0.07);border:1px solid rgba(91,110,245,0.18);
+    border-radius:10px;padding:14px 18px;
+    font-size:13px;color:#9ba3f7;line-height:1.6;margin-top:14px;
+  }
+  .tip strong{color:#b0b8fb;}
+
+  /* ── Objective matrix ── */
+  .obj-grid{display:grid;grid-template-columns:repeat(auto-fill,minmax(220px,1fr));gap:12px;margin-top:4px;}
+  .obj-card{
+    background:var(--s2);border:1px solid var(--border);
+    border-radius:12px;padding:18px;
+  }
+  .obj-name{font-family:'Syne',sans-serif;font-size:14px;font-weight:700;color:#fff;margin-bottom:10px;}
+  .obj-row{display:flex;justify-content:space-between;align-items:center;font-size:12px;color:var(--muted);padding:4px 0;border-bottom:1px solid rgba(255,255,255,0.04);}
+  .obj-row:last-child{border-bottom:none;}
+  .obj-val{color:#b8b8d0;font-weight:500;}
+
+  /* ── Warning box ── */
+  .warn{
+    background:rgba(239,68,68,0.07);border:1px solid rgba(239,68,68,0.18);
+    border-radius:10px;padding:14px 18px;
+    font-size:13px;color:#fca5a5;line-height:1.6;margin-top:14px;
+  }
+  .warn strong{color:#f87171;}
+
+  /* ── Checklist ── */
+  .checklist{list-style:none;margin-top:14px;}
+  .checklist li{
+    padding:8px 0;border-bottom:1px solid rgba(255,255,255,0.04);
+    font-size:13px;color:#9999bb;display:flex;gap:10px;align-items:flex-start;
+  }
+  .checklist li:last-child{border-bottom:none;}
+  .checklist li::before{content:'→';color:var(--accent);flex-shrink:0;margin-top:1px;}
+
+  /* ── Footer ── */
+  .footer{text-align:center;color:var(--muted);font-size:12px;margin-top:72px;padding-top:24px;border-top:1px solid var(--border);}
+</style>
+</head>
+<body>
+<div class="wrap">
+
+<!-- Header -->
+<div class="hdr">
+  <div class="hdr-badge">Meta Ads · Complete Reference Diary</div>
+  <h1>Meta Ads Performance Diary</h1>
+  <p>Every metric across every objective — with exact good, average, poor benchmarks<br>Nepal market focused · Use this every time you analyze your ads</p>
+</div>
+
+<!-- TOC -->
+<div class="toc">
+  <h3>Contents</h3>
+  <div class="toc-grid">
+    <a class="toc-item" href="#reach"><span class="toc-num">01</span> Reach & Visibility</a>
+    <a class="toc-item" href="#clicks"><span class="toc-num">02</span> Clicks & Engagement</a>
+    <a class="toc-item" href="#website"><span class="toc-num">03</span> Website Performance</a>
+    <a class="toc-item" href="#results"><span class="toc-num">04</span> Results & Conversions</a>
+    <a class="toc-item" href="#video"><span class="toc-num">05</span> Video Metrics</a>
+    <a class="toc-item" href="#messages"><span class="toc-num">06</span> Messages & Leads</a>
+    <a class="toc-item" href="#quality"><span class="toc-num">07</span> Quality Rankings</a>
+    <a class="toc-item" href="#budget"><span class="toc-num">08</span> Budget & Learning</a>
+    <a class="toc-item" href="#audience"><span class="toc-num">09</span> Audience & Targeting</a>
+    <a class="toc-item" href="#objectives"><span class="toc-num">10</span> Objective Benchmarks</a>
+    <a class="toc-item" href="#roas"><span class="toc-num">11</span> ROAS & Profitability</a>
+    <a class="toc-item" href="#health"><span class="toc-num">12</span> Campaign Health Check</a>
+  </div>
+</div>
+
+<!-- 01 REACH & VISIBILITY -->
+<div class="sec" id="reach">01 · Reach & Visibility</div>
+
+<div class="card">
+  <div class="card-title">Reach</div>
+  <div class="card-sub">Unique people who saw your ad</div>
+  <div class="card-desc">Number of individual people who saw your ad at least once. Always lower than Impressions.</div>
+  <table>
+    <tr><th>Value (Nepal)</th><th>Remark</th></tr>
+    <tr><td>0 – 1,000</td><td><span class="pill po">Poor — increase budget or broaden audience</span></td></tr>
+    <tr><td>1,000 – 10,000</td><td><span class="pill av">Average — decent for small budget</span></td></tr>
+    <tr><td>10,000 – 50,000</td><td><span class="pill g">Good — healthy reach</span></td></tr>
+    <tr><td>50,000 – 200,000</td><td><span class="pill vg">Very Good</span></td></tr>
+    <tr><td>200,000+</td><td><span class="pill ex">Excellent — strong visibility</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Impressions</div>
+  <div class="card-sub">Total times your ad was displayed</div>
+  <div class="card-desc">Total times your ad appeared on screen — same person counted multiple times. Always ≥ Reach. Alone it means nothing — always read with CPM and CTR.</div>
+  <div class="tip"><strong>Formula:</strong> Impressions ÷ Reach = Frequency. Use impressions to understand your ad's total exposure.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Frequency</div>
+  <div class="card-sub">Average times each person saw your ad</div>
+  <div class="card-desc">High frequency = people getting bored or annoyed with your ad. This is called Ad Fatigue. Watch this closely on small audiences.</div>
+  <table>
+    <tr><th>Value</th><th>Remark</th></tr>
+    <tr><td>1.0 – 2.0</td><td><span class="pill g">Good — perfectly healthy</span></td></tr>
+    <tr><td>2.0 – 3.5</td><td><span class="pill av">Watch — starting to repeat</span></td></tr>
+    <tr><td>3.5 – 5.0</td><td><span class="pill po">Poor — refresh your creative now</span></td></tr>
+    <tr><td>5.0+</td><td><span class="pill po">Ad Fatigue — change ad immediately</span></td></tr>
+  </table>
+  <div class="tip"><strong>Fix for high frequency:</strong> Add new creative, expand your audience, or create an exclusion list of people who already engaged.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">CPM — Cost Per 1,000 Impressions</div>
+  <div class="card-sub">How much you pay to reach 1,000 people</div>
+  <div class="card-desc">Lower CPM = you're reaching more people for less money. Affected by audience size, competition, ad quality, and time of year.</div>
+  <table>
+    <tr><th>Value (Nepal Market)</th><th>Remark</th></tr>
+    <tr><td>Below $0.50</td><td><span class="pill ex">Excellent — extremely cheap reach</span></td></tr>
+    <tr><td>$0.50 – $1.50</td><td><span class="pill g">Good — very affordable</span></td></tr>
+    <tr><td>$1.50 – $3.00</td><td><span class="pill av">Average — normal range</span></td></tr>
+    <tr><td>$3.00 – $6.00</td><td><span class="pill po">Expensive — check targeting</span></td></tr>
+    <tr><td>$6.00+</td><td><span class="pill po">Very Expensive — audience too narrow or competitive</span></td></tr>
+  </table>
+  <div class="tip"><strong>Why CPM rises:</strong> Audience too small, ad fatigue, low quality score, festive season (Dashain, Tihar), or targeting too specific interests.</div>
+</div>
+
+<!-- 02 CLICKS -->
+<div class="sec" id="clicks">02 · Clicks & Engagement</div>
+
+<div class="card">
+  <div class="card-title">CTR — Click Through Rate</div>
+  <div class="card-sub">% of people who saw your ad and clicked it</div>
+  <div class="card-desc">Most important indicator of how interesting and relevant your ad is. Formula: (Link Clicks ÷ Impressions) × 100.</div>
+  <table>
+    <tr><th>Value</th><th>Remark</th></tr>
+    <tr><td>Below 0.5%</td><td><span class="pill po">Poor — change creative or copy immediately</span></td></tr>
+    <tr><td>0.5% – 1.0%</td><td><span class="pill av">Below Average — needs improvement</span></td></tr>
+    <tr><td>1.0% – 2.0%</td><td><span class="pill g">Good — industry standard</span></td></tr>
+    <tr><td>2.0% – 3.0%</td><td><span class="pill vg">Very Good — ad resonates well</span></td></tr>
+    <tr><td>3.0% – 5.0%</td><td><span class="pill ex">Excellent — scale this ad</span></td></tr>
+    <tr><td>5.0%+</td><td><span class="pill ex">Exceptional — duplicate and increase budget</span></td></tr>
+  </table>
+  <div class="tip"><strong>Low CTR fix:</strong> Change first image/video, rewrite first line of copy, add stronger CTA, test different offer or hook.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">CPC — Cost Per Link Click</div>
+  <div class="card-sub">How much you pay for each click to your destination</div>
+  <div class="card-desc">Directly related to CTR — higher CTR always gives lower CPC. Formula: Amount Spent ÷ Link Clicks.</div>
+  <table>
+    <tr><th>Value (Nepal)</th><th>Remark</th></tr>
+    <tr><td>Below $0.02</td><td><span class="pill ex">Excellent — extremely cheap</span></td></tr>
+    <tr><td>$0.02 – $0.10</td><td><span class="pill g">Good — very affordable</span></td></tr>
+    <tr><td>$0.10 – $0.30</td><td><span class="pill av">Average — normal range</span></td></tr>
+    <tr><td>$0.30 – $0.60</td><td><span class="pill po">Expensive — improve creative</span></td></tr>
+    <tr><td>$0.60+</td><td><span class="pill po">Very Expensive — pause and fix ad</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Link Clicks vs Clicks (All)</div>
+  <div class="card-sub">Two very different types of clicks</div>
+  <div class="card-desc">These are not the same metric. Always use Link Clicks for performance decisions.</div>
+  <table>
+    <tr><th>Type</th><th>What It Counts</th><th>Use It For</th></tr>
+    <tr><td><strong style="color:#fff">Link Clicks</strong></td><td>Only clicks to your website/destination</td><td>✅ Main metric — actual traffic</td></tr>
+    <tr><td><strong style="color:#fff">Clicks (All)</strong></td><td>Website + likes + shares + profile visits + comments</td><td>⚠️ Vanity metric only</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Post Engagement</div>
+  <div class="card-sub">Likes, comments, shares, saves on your ad</div>
+  <div class="card-desc">High engagement tells Meta your ad is relevant — lowers CPM and CPC over time. Social proof (likes/comments) also builds trust with new viewers.</div>
+  <table>
+    <tr><th>Engagement Rate</th><th>Remark</th></tr>
+    <tr><td>Below 1%</td><td><span class="pill po">Poor — ad not resonating</span></td></tr>
+    <tr><td>1% – 3%</td><td><span class="pill av">Average</span></td></tr>
+    <tr><td>3% – 6%</td><td><span class="pill g">Good</span></td></tr>
+    <tr><td>6%+</td><td><span class="pill ex">Excellent — viral potential</span></td></tr>
+  </table>
+</div>
+
+<!-- 03 WEBSITE -->
+<div class="sec" id="website">03 · Website Performance</div>
+
+<div class="card">
+  <div class="card-title">Landing Page Views</div>
+  <div class="card-sub">People who clicked AND waited for your page to load</div>
+  <div class="card-desc">Always lower than Link Clicks. The gap between Link Clicks and Landing Page Views = people who left before the page loaded = slow website.</div>
+  <table>
+    <tr><th>Landing Page Views ÷ Link Clicks</th><th>Remark</th></tr>
+    <tr><td>90%+</td><td><span class="pill ex">Excellent — very fast website</span></td></tr>
+    <tr><td>70% – 90%</td><td><span class="pill g">Good — acceptable speed</span></td></tr>
+    <tr><td>50% – 70%</td><td><span class="pill av">Average — website needs to be faster</span></td></tr>
+    <tr><td>Below 50%</td><td><span class="pill po">Poor — website too slow, fix urgently</span></td></tr>
+  </table>
+  <div class="tip"><strong>Quick fix:</strong> Test your page at pagespeed.web.dev. Score should be 70+ on mobile. Compress images at squoosh.app.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Cost Per Landing Page View</div>
+  <div class="card-sub">How much you pay per actual website visitor</div>
+  <div class="card-desc">More accurate than CPC for measuring real traffic cost since it only counts people who fully loaded the page.</div>
+  <table>
+    <tr><th>Value (Nepal)</th><th>Remark</th></tr>
+    <tr><td>Below $0.03</td><td><span class="pill ex">Excellent</span></td></tr>
+    <tr><td>$0.03 – $0.10</td><td><span class="pill g">Good</span></td></tr>
+    <tr><td>$0.10 – $0.30</td><td><span class="pill av">Average</span></td></tr>
+    <tr><td>$0.30 – $0.60</td><td><span class="pill po">Expensive</span></td></tr>
+    <tr><td>$0.60+</td><td><span class="pill po">Very Expensive — fix website speed</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Add to Cart Rate</div>
+  <div class="card-sub">% of landing page visitors who add to cart</div>
+  <div class="card-desc">Formula: Add to Carts ÷ Landing Page Views × 100. Low rate = product page has issues (no reviews, bad images, missing info, bad pricing).</div>
+  <table>
+    <tr><th>Add to Cart Rate</th><th>Remark</th></tr>
+    <tr><td>Below 1%</td><td><span class="pill po">Poor — fix product page urgently</span></td></tr>
+    <tr><td>1% – 3%</td><td><span class="pill av">Average — room for improvement</span></td></tr>
+    <tr><td>3% – 6%</td><td><span class="pill g">Good</span></td></tr>
+    <tr><td>6%+</td><td><span class="pill ex">Excellent</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Checkout Rate & Purchase Rate</div>
+  <div class="card-sub">How many cart adds turn into purchases</div>
+  <div class="card-desc">Low checkout rate = checkout is confusing, payment options missing, or no COD. Low purchase rate = cart abandonment — use retargeting to recover.</div>
+  <table>
+    <tr><th>Metric</th><th>Good Rate</th><th>Poor Rate</th></tr>
+    <tr><td>Initiate Checkout ÷ Add to Cart</td><td><span class="pill g">50%+</span></td><td><span class="pill po">Below 25%</span></td></tr>
+    <tr><td>Purchase ÷ Initiate Checkout</td><td><span class="pill g">40%+</span></td><td><span class="pill po">Below 20%</span></td></tr>
+    <tr><td>Purchase ÷ Landing Page Views</td><td><span class="pill g">2%+</span></td><td><span class="pill po">Below 0.5%</span></td></tr>
+  </table>
+</div>
+
+<!-- 04 RESULTS -->
+<div class="sec" id="results">04 · Results & Conversions</div>
+
+<div class="card">
+  <div class="card-title">Cost Per Result — All Objectives</div>
+  <div class="card-sub">How much you pay for each goal completed</div>
+  <div class="card-desc">Most important number to judge campaign profitability. Changes completely based on your campaign objective.</div>
+  <table>
+    <tr><th>Campaign Objective</th><th>Excellent</th><th>Good</th><th>Average</th><th>Poor / Stop</th></tr>
+    <tr><td>Purchase / Sales</td><td><span class="pill ex">Below $2</span></td><td><span class="pill g">$2–$5</span></td><td><span class="pill av">$5–$10</span></td><td><span class="pill po">$10+</span></td></tr>
+    <tr><td>Add to Cart</td><td><span class="pill ex">Below $0.50</span></td><td><span class="pill g">$0.50–$1.50</span></td><td><span class="pill av">$1.50–$3</span></td><td><span class="pill po">$3+</span></td></tr>
+    <tr><td>Initiate Checkout</td><td><span class="pill ex">Below $0.80</span></td><td><span class="pill g">$0.80–$2</span></td><td><span class="pill av">$2–$4</span></td><td><span class="pill po">$4+</span></td></tr>
+    <tr><td>Messages / Conversations</td><td><span class="pill ex">Below $0.20</span></td><td><span class="pill g">$0.20–$0.60</span></td><td><span class="pill av">$0.60–$1.50</span></td><td><span class="pill po">$1.50+</span></td></tr>
+    <tr><td>Lead Form Submission</td><td><span class="pill ex">Below $0.50</span></td><td><span class="pill g">$0.50–$1.50</span></td><td><span class="pill av">$1.50–$3</span></td><td><span class="pill po">$3+</span></td></tr>
+    <tr><td>Profile Visit (Instagram)</td><td><span class="pill ex">Below $0.01</span></td><td><span class="pill g">$0.01–$0.05</span></td><td><span class="pill av">$0.05–$0.15</span></td><td><span class="pill po">$0.15+</span></td></tr>
+    <tr><td>Link Clicks / Traffic</td><td><span class="pill ex">Below $0.02</span></td><td><span class="pill g">$0.02–$0.10</span></td><td><span class="pill av">$0.10–$0.30</span></td><td><span class="pill po">$0.30+</span></td></tr>
+    <tr><td>Post Engagement</td><td><span class="pill ex">Below $0.01</span></td><td><span class="pill g">$0.01–$0.05</span></td><td><span class="pill av">$0.05–$0.15</span></td><td><span class="pill po">$0.15+</span></td></tr>
+    <tr><td>Video Views (ThruPlay)</td><td><span class="pill ex">Below $0.01</span></td><td><span class="pill g">$0.01–$0.03</span></td><td><span class="pill av">$0.03–$0.08</span></td><td><span class="pill po">$0.08+</span></td></tr>
+    <tr><td>Followers / Page Likes</td><td><span class="pill ex">Below $0.05</span></td><td><span class="pill g">$0.05–$0.20</span></td><td><span class="pill av">$0.20–$0.50</span></td><td><span class="pill po">$0.50+</span></td></tr>
+  </table>
+</div>
+
+<!-- 05 VIDEO -->
+<div class="sec" id="video">05 · Video Metrics</div>
+
+<div class="card">
+  <div class="card-title">Video Views & View Rate</div>
+  <div class="card-sub">How many people watched your video and for how long</div>
+  <div class="card-desc">Meta counts a view differently based on the type. ThruPlay = watched at least 15 seconds or to completion (most meaningful).</div>
+  <table>
+    <tr><th>Metric</th><th>Good</th><th>Poor</th></tr>
+    <tr><td>2-Second Video Views ÷ Impressions</td><td><span class="pill g">50%+</span></td><td><span class="pill po">Below 20%</span></td></tr>
+    <tr><td>3-Second Video Views ÷ Impressions</td><td><span class="pill g">40%+</span></td><td><span class="pill po">Below 15%</span></td></tr>
+    <tr><td>ThruPlay ÷ Impressions</td><td><span class="pill g">15%+</span></td><td><span class="pill po">Below 5%</span></td></tr>
+    <tr><td>Video Watched at 25%</td><td><span class="pill g">60%+</span></td><td><span class="pill po">Below 30%</span></td></tr>
+    <tr><td>Video Watched at 50%</td><td><span class="pill g">40%+</span></td><td><span class="pill po">Below 20%</span></td></tr>
+    <tr><td>Video Watched at 75%</td><td><span class="pill g">25%+</span></td><td><span class="pill po">Below 10%</span></td></tr>
+    <tr><td>Video Watched at 100%</td><td><span class="pill g">15%+</span></td><td><span class="pill po">Below 5%</span></td></tr>
+  </table>
+  <div class="tip"><strong>Hook rule:</strong> If 3-second views are low, your opening 3 seconds are weak. Start with motion, a bold statement, or a question — never a logo.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Cost Per Video View</div>
+  <div class="card-sub">How much you pay per view</div>
+  <table>
+    <tr><th>Type</th><th>Excellent</th><th>Good</th><th>Poor</th></tr>
+    <tr><td>Cost Per 3-Second View</td><td><span class="pill ex">Below $0.005</span></td><td><span class="pill g">$0.005–$0.02</span></td><td><span class="pill po">$0.02+</span></td></tr>
+    <tr><td>Cost Per ThruPlay (15s)</td><td><span class="pill ex">Below $0.01</span></td><td><span class="pill g">$0.01–$0.04</span></td><td><span class="pill po">$0.04+</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Average Watch Time</div>
+  <div class="card-sub">How long people watch your video on average</div>
+  <div class="card-desc">Short watch time = hook is weak or content loses people fast. Longer watch time = warmer audience for retargeting.</div>
+  <table>
+    <tr><th>Watch Time vs Video Length</th><th>Remark</th></tr>
+    <tr><td>75%+ of video length</td><td><span class="pill ex">Excellent — very engaging content</span></td></tr>
+    <tr><td>50% – 75%</td><td><span class="pill g">Good</span></td></tr>
+    <tr><td>25% – 50%</td><td><span class="pill av">Average — improve content pacing</span></td></tr>
+    <tr><td>Below 25%</td><td><span class="pill po">Poor — hook or content needs major fix</span></td></tr>
+  </table>
+</div>
+
+<!-- 06 MESSAGES & LEADS -->
+<div class="sec" id="messages">06 · Messages & Leads</div>
+
+<div class="card">
+  <div class="card-title">Messaging Conversations Started</div>
+  <div class="card-sub">People who sent you a message via WhatsApp / Instagram DM / Messenger</div>
+  <div class="card-desc">Used in Messages objective. The sale happens in the chat — getting conversations is just the first step. Reply speed matters.</div>
+  <table>
+    <tr><th>Cost Per Conversation (Nepal)</th><th>Remark</th></tr>
+    <tr><td>Below $0.20</td><td><span class="pill ex">Excellent</span></td></tr>
+    <tr><td>$0.20 – $0.60</td><td><span class="pill g">Good</span></td></tr>
+    <tr><td>$0.60 – $1.50</td><td><span class="pill av">Average</span></td></tr>
+    <tr><td>$1.50+</td><td><span class="pill po">Expensive — fix ad creative or audience</span></td></tr>
+  </table>
+  <div class="warn"><strong>Critical:</strong> Getting messages means nothing if nobody replies. Reply within 5 minutes — conversion rate drops 80% after 1 hour.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Lead Form — Cost Per Lead</div>
+  <div class="card-sub">People who filled your instant lead form on Facebook/Instagram</div>
+  <div class="card-desc">Lead forms stay inside Meta — no website needed. Good for collecting phone numbers, emails, and names. Follow up fast.</div>
+  <table>
+    <tr><th>Cost Per Lead (Nepal)</th><th>Remark</th></tr>
+    <tr><td>Below $0.30</td><td><span class="pill ex">Excellent</span></td></tr>
+    <tr><td>$0.30 – $1.00</td><td><span class="pill g">Good</span></td></tr>
+    <tr><td>$1.00 – $2.50</td><td><span class="pill av">Average</span></td></tr>
+    <tr><td>$2.50+</td><td><span class="pill po">Expensive</span></td></tr>
+  </table>
+  <div class="tip"><strong>Lead quality tip:</strong> Add a qualifying question in the form (e.g. "What is your budget?"). Filters out low-quality leads even if cost per lead rises slightly.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Marketing Messages CTR</div>
+  <div class="card-sub">% of people who clicked a message you sent them</div>
+  <div class="card-desc">Used when you send promotional messages to people who opted in. Measures how compelling your message content is.</div>
+  <table>
+    <tr><th>CTR</th><th>Remark</th></tr>
+    <tr><td>Below 5%</td><td><span class="pill po">Poor — message content weak</span></td></tr>
+    <tr><td>5% – 15%</td><td><span class="pill av">Average</span></td></tr>
+    <tr><td>15% – 30%</td><td><span class="pill g">Good</span></td></tr>
+    <tr><td>30%+</td><td><span class="pill ex">Excellent</span></td></tr>
+  </table>
+</div>
+
+<!-- 07 QUALITY -->
+<div class="sec" id="quality">07 · Quality Rankings</div>
+
+<div class="card">
+  <div class="card-title">Quality Ranking</div>
+  <div class="card-sub">How your ad quality compares to similar ads</div>
+  <div class="card-desc">Meta compares your ad to all other ads targeting the same audience. Measures if people find your ad useful, relevant, and trustworthy.</div>
+  <table>
+    <tr><th>Ranking</th><th>Remark</th><th>Action</th></tr>
+    <tr><td>Above Average</td><td><span class="pill ex">Excellent</span></td><td>Keep running — ad is trusted</td></tr>
+    <tr><td>Average</td><td><span class="pill g">Good</span></td><td>Normal — try improving images/copy</td></tr>
+    <tr><td>Below Average (35%)</td><td><span class="pill av">Poor</span></td><td>Improve creative quality</td></tr>
+    <tr><td>Below Average (20%)</td><td><span class="pill po">Bad</span></td><td>Major creative overhaul needed</td></tr>
+    <tr><td>Below Average (10%)</td><td><span class="pill po">Critical</span></td><td>Pause immediately and redo</td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Engagement Rate Ranking</div>
+  <div class="card-sub">How your engagement compares to similar ads</div>
+  <div class="card-desc">Compares your ad's likes, shares, comments, and clicks to similar ads. Above Average means people interact with your ad more than most ads shown to the same audience.</div>
+  <table>
+    <tr><th>Ranking</th><th>Remark</th></tr>
+    <tr><td>Above Average</td><td><span class="pill ex">Excellent — people love your content</span></td></tr>
+    <tr><td>Average</td><td><span class="pill g">Good — normal engagement</span></td></tr>
+    <tr><td>Below Average</td><td><span class="pill po">Poor — make ad more interesting or entertaining</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Conversion Rate Ranking</div>
+  <div class="card-sub">How your conversion rate compares to similar ads</div>
+  <div class="card-desc">Compares how often people complete your goal after clicking vs similar ads. If this is Above Average but you still have 0 sales — the problem is your website, not your ad.</div>
+  <table>
+    <tr><th>Ranking</th><th>Remark</th></tr>
+    <tr><td>Above Average</td><td><span class="pill ex">Excellent — ad should convert well</span></td></tr>
+    <tr><td>Average</td><td><span class="pill g">Good — normal</span></td></tr>
+    <tr><td>Below Average</td><td><span class="pill po">Poor — landing page or offer needs work</span></td></tr>
+  </table>
+  <div class="tip"><strong>Key insight:</strong> All 3 rankings Above Average + 0 sales = website problem. All 3 rankings Below Average = ad problem.</div>
+</div>
+
+<!-- 08 BUDGET -->
+<div class="sec" id="budget">08 · Budget & Learning Phase</div>
+
+<div class="card">
+  <div class="card-title">Minimum Daily Budget by Objective</div>
+  <div class="card-sub">Spending below minimum = Meta can't learn = poor results</div>
+  <div class="card-desc">Meta needs data to optimize. Too little budget = slow or no learning = wasted money.</div>
+  <table>
+    <tr><th>Campaign Objective</th><th>Minimum/Day</th><th>Recommended/Day</th><th>Ideal/Day</th></tr>
+    <tr><td>Sales / Conversions</td><td><span class="pill av">$5</span></td><td><span class="pill g">$10</span></td><td><span class="pill ex">$15–$20</span></td></tr>
+    <tr><td>Messages / Leads</td><td><span class="pill av">$3</span></td><td><span class="pill g">$5</span></td><td><span class="pill ex">$8–$10</span></td></tr>
+    <tr><td>Traffic / Clicks</td><td><span class="pill av">$2</span></td><td><span class="pill g">$3–5</span></td><td><span class="pill ex">$5–$8</span></td></tr>
+    <tr><td>Engagement / Awareness</td><td><span class="pill av">$1</span></td><td><span class="pill g">$2–3</span></td><td><span class="pill ex">$3–5</span></td></tr>
+    <tr><td>Video Views</td><td><span class="pill av">$2</span></td><td><span class="pill g">$3–5</span></td><td><span class="pill ex">$5–$8</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Learning Phase</div>
+  <div class="card-sub">The period where Meta figures out who your best customers are</div>
+  <div class="card-desc">Every new campaign or ad set starts in the learning phase. Results are inconsistent and more expensive during this time. Never judge an ad while it's still learning.</div>
+  <table>
+    <tr><th>Metric</th><th>Detail</th></tr>
+    <tr><td>What triggers learning phase</td><td>New campaign, new ad set, new ad, budget change by 20%+, audience change, creative change</td></tr>
+    <tr><td>How to exit learning phase</td><td>Get 50 optimization events (purchases, messages, clicks) per ad set per week</td></tr>
+    <tr><td>How long it takes</td><td>Usually 7–14 days</td></tr>
+    <tr><td>When to judge performance</td><td>Only AFTER learning phase is complete</td></tr>
+  </table>
+  <div class="warn"><strong>Never do this during learning phase:</strong> Don't change budget by more than 20%, don't edit audience, don't change creative — it resets learning and wastes money.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">Budget Scaling Rules</div>
+  <div class="card-sub">How to increase budget without breaking performance</div>
+  <div class="card-desc">Increasing budget too fast resets the learning phase and ruins performance.</div>
+  <table>
+    <tr><th>Rule</th><th>Detail</th></tr>
+    <tr><td>Safe increase per change</td><td><span class="pill g">Max 20% every 3–5 days</span></td></tr>
+    <tr><td>Aggressive increase (risky)</td><td><span class="pill av">Up to 50% — monitor closely</span></td></tr>
+    <tr><td>Dangerous increase</td><td><span class="pill po">Doubling budget — resets learning</span></td></tr>
+    <tr><td>Best time to scale</td><td>After 7+ days of consistent results</td></tr>
+  </table>
+</div>
+
+<!-- 09 AUDIENCE -->
+<div class="sec" id="audience">09 · Audience & Targeting</div>
+
+<div class="card">
+  <div class="card-title">Audience Size</div>
+  <div class="card-sub">How many people can Meta show your ad to</div>
+  <div class="card-desc">Too small = high frequency, ad fatigue, high CPM. Too large = irrelevant people seeing your ad. Find the sweet spot.</div>
+  <table>
+    <tr><th>Audience Size (Nepal)</th><th>Remark</th></tr>
+    <tr><td>Below 50,000</td><td><span class="pill po">Too small — will get expensive fast</span></td></tr>
+    <tr><td>50,000 – 200,000</td><td><span class="pill g">Good — sweet spot for Nepal</span></td></tr>
+    <tr><td>200,000 – 500,000</td><td><span class="pill vg">Very Good — healthy range</span></td></tr>
+    <tr><td>500,000 – 1,000,000</td><td><span class="pill g">Good — broad but manageable</span></td></tr>
+    <tr><td>1,000,000+</td><td><span class="pill av">Very broad — better for awareness only</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Audience Types — When to Use Each</div>
+  <div class="card-sub">Cold, Warm, and Hot audiences</div>
+  <table>
+    <tr><th>Audience Type</th><th>Who They Are</th><th>Best Objective</th><th>Expected Cost</th></tr>
+    <tr><td><strong style="color:#fff">Cold</strong> — Interest/Broad</td><td>Never heard of you</td><td>Awareness, Traffic, Video Views</td><td><span class="pill g">Cheapest</span></td></tr>
+    <tr><td><strong style="color:#fff">Warm</strong> — Custom Audience</td><td>Visited website, watched video, engaged with page</td><td>Messages, Add to Cart, Traffic</td><td><span class="pill av">Medium</span></td></tr>
+    <tr><td><strong style="color:#fff">Hot</strong> — Retargeting</td><td>Added to cart, viewed product, messaged you</td><td>Sales, Purchase</td><td><span class="pill po">Most Expensive but highest conversion</span></td></tr>
+    <tr><td><strong style="color:#fff">Lookalike</strong></td><td>Similar to your best customers</td><td>Sales, Messages</td><td><span class="pill av">Medium</span></td></tr>
+  </table>
+</div>
+
+<div class="card">
+  <div class="card-title">Attribution Setting</div>
+  <div class="card-sub">How Meta decides to give credit for a purchase</div>
+  <div class="card-desc">Attribution tells Meta how long after seeing/clicking your ad to count a purchase as a result from that ad.</div>
+  <table>
+    <tr><th>Setting</th><th>Meaning</th><th>Use When</th></tr>
+    <tr><td>1-day click</td><td>Purchase within 1 day of clicking</td><td>Impulse products, low price</td></tr>
+    <tr><td>7-day click</td><td>Purchase within 7 days of clicking</td><td>Most common — recommended</td></tr>
+    <tr><td>1-day view</td><td>Purchase within 1 day of just seeing (not clicking)</td><td>Awareness campaigns</td></tr>
+    <tr><td>7-day click + 1-day view</td><td>Combined — most generous</td><td>Standard for most campaigns</td></tr>
+  </table>
+</div>
+
+<!-- 10 OBJECTIVES -->
+<div class="sec" id="objectives">10 · Objective-by-Objective Benchmarks</div>
+
+<div class="card">
+  <div class="card-title">Which Metrics Matter for Each Objective</div>
+  <div class="card-sub">Focus only on what's relevant to your campaign goal</div>
+  <div class="card-desc">Different objectives = different success metrics. Don't judge a traffic campaign by purchases.</div>
+  <div class="obj-grid">
+    <div class="obj-card">
+      <div class="obj-name">🛒 Sales</div>
+      <div class="obj-row"><span>Primary</span><span class="obj-val">ROAS, Cost per Purchase</span></div>
+      <div class="obj-row"><span>Secondary</span><span class="obj-val">Add to Cart Rate, CTR</span></div>
+      <div class="obj-row"><span>Watch</span><span class="obj-val">Frequency, Landing Page Views</span></div>
+      <div class="obj-row"><span>Min Budget</span><span class="obj-val">$5/day</span></div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-name">💬 Messages</div>
+      <div class="obj-row"><span>Primary</span><span class="obj-val">Cost per Conversation</span></div>
+      <div class="obj-row"><span>Secondary</span><span class="obj-val">CTR, Reply Rate</span></div>
+      <div class="obj-row"><span>Watch</span><span class="obj-val">Frequency, CPM</span></div>
+      <div class="obj-row"><span>Min Budget</span><span class="obj-val">$3/day</span></div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-name">🚦 Traffic</div>
+      <div class="obj-row"><span>Primary</span><span class="obj-val">CPC, Landing Page Views</span></div>
+      <div class="obj-row"><span>Secondary</span><span class="obj-val">CTR, CPM</span></div>
+      <div class="obj-row"><span>Watch</span><span class="obj-val">Bounce Rate (on website)</span></div>
+      <div class="obj-row"><span>Min Budget</span><span class="obj-val">$2/day</span></div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-name">👍 Engagement</div>
+      <div class="obj-row"><span>Primary</span><span class="obj-val">Cost per Engagement, Reach</span></div>
+      <div class="obj-row"><span>Secondary</span><span class="obj-val">Likes, Shares, Comments</span></div>
+      <div class="obj-row"><span>Watch</span><span class="obj-val">Frequency</span></div>
+      <div class="obj-row"><span>Min Budget</span><span class="obj-val">$1/day</span></div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-name">🎥 Video Views</div>
+      <div class="obj-row"><span>Primary</span><span class="obj-val">ThruPlay, Watch Time</span></div>
+      <div class="obj-row"><span>Secondary</span><span class="obj-val">Cost per View, 3s Views</span></div>
+      <div class="obj-row"><span>Watch</span><span class="obj-val">Drop-off at 25%, 50%, 75%</span></div>
+      <div class="obj-row"><span>Min Budget</span><span class="obj-val">$2/day</span></div>
+    </div>
+    <div class="obj-card">
+      <div class="obj-name">📋 Leads</div>
+      <div class="obj-row"><span>Primary</span><span class="obj-val">Cost per Lead, Lead Quality</span></div>
+      <div class="obj-row"><span>Secondary</span><span class="obj-val">CTR, Form Completion Rate</span></div>
+      <div class="obj-row"><span>Watch</span><span class="obj-val">Follow-up conversion rate</span></div>
+      <div class="obj-row"><span>Min Budget</span><span class="obj-val">$3/day</span></div>
+    </div>
+  </div>
+</div>
+
+<!-- 11 ROAS -->
+<div class="sec" id="roas">11 · ROAS & Profitability</div>
+
+<div class="card">
+  <div class="card-title">ROAS — Return on Ad Spend</div>
+  <div class="card-sub">How much revenue you earn for every $1 spent on ads</div>
+  <div class="card-desc">Formula: Revenue from Ads ÷ Ad Spend = ROAS. A ROAS of 3 means for every $1 spent, you earned $3 back. Most important metric for sales campaigns.</div>
+  <table>
+    <tr><th>ROAS</th><th>Remark</th></tr>
+    <tr><td>Below 1x</td><td><span class="pill po">Losing money — pause immediately</span></td></tr>
+    <tr><td>1x – 2x</td><td><span class="pill po">Breaking even or slight loss — fix urgently</span></td></tr>
+    <tr><td>2x – 3x</td><td><span class="pill av">Average — profitable but thin margin</span></td></tr>
+    <tr><td>3x – 5x</td><td><span class="pill g">Good — healthy profitability</span></td></tr>
+    <tr><td>5x – 8x</td><td><span class="pill vg">Very Good — scale this campaign</span></td></tr>
+    <tr><td>8x+</td><td><span class="pill ex">Excellent — scale aggressively</span></td></tr>
+  </table>
+  <div class="tip"><strong>Break-even ROAS formula:</strong> 1 ÷ Your Profit Margin = Break Even ROAS. Example: if your margin is 40%, break even ROAS = 1 ÷ 0.4 = 2.5x. You need above 2.5x to be profitable.</div>
+</div>
+
+<div class="card">
+  <div class="card-title">CPA — Cost Per Acquisition</div>
+  <div class="card-sub">How much you spend to get one paying customer</div>
+  <div class="card-desc">Formula: Total Ad Spend ÷ Number of Purchases. Must be lower than your product profit to be sustainable.</div>
+  <table>
+    <tr><th>Rule</th><th>Detail</th></tr>
+    <tr><td>CPA must be</td><td>Lower than your profit per order</td></tr>
+    <tr><td>Example</td><td>Product sells for $20, costs $8 to make = $12 profit. CPA must be below $12.</td></tr>
+    <tr><td>Healthy CPA</td><td><span class="pill g">Below 30% of product selling price</span></td></tr>
+    <tr><td>Dangerous CPA</td><td><span class="pill po">Above 60% of product selling price</span></td></tr>
+  </table>
+</div>
+
+<!-- 12 HEALTH CHECK -->
+<div class="sec" id="health">12 · Campaign Health Check</div>
+
+<div class="card">
+  <div class="card-title">Quick Health Check — Ask These Every Week</div>
+  <div class="card-sub">Run through this checklist every time you review your ads</div>
+  <ul class="checklist">
+    <li>Is Frequency below 3.5? If above — refresh creative immediately</li>
+    <li>Is CTR above 1%? If below — change image or first line of copy</li>
+    <li>Are Quality Rankings all Average or Above Average? If below — fix ad creative</li>
+    <li>Is Landing Page Views at least 60% of Link Clicks? If below — fix website speed</li>
+    <li>Is CPM rising week over week? If yes — audience getting saturated, expand or refresh</li>
+    <li>Has the campaign had at least 7 days to learn? If no — don't judge results yet</li>
+    <li>Is ROAS above break-even? If no — pause and fix before spending more</li>
+    <li>Are messages and leads being followed up within 5 minutes? If no — fix your response process</li>
+    <li>Is budget at least the minimum for the objective? If no — increase or change objective</li>
+    <li>Are you retargeting website visitors and cart abandoners? If no — set this up this week</li>
+  </ul>
+</div>
+
+<div class="card">
+  <div class="card-title">When to Pause vs When to Fix vs When to Scale</div>
+  <div class="card-sub">Decision framework for every campaign situation</div>
+  <table>
+    <tr><th>Situation</th><th>Action</th></tr>
+    <tr><td>Good CTR, 0 conversions, above average rankings</td><td><span class="pill av">Fix website — not the ad</span></td></tr>
+    <tr><td>Low CTR (below 0.8%), poor rankings</td><td><span class="pill po">Fix or replace the ad creative</span></td></tr>
+    <tr><td>High CPM, small audience</td><td><span class="pill av">Expand audience or refresh creative</span></td></tr>
+    <tr><td>Frequency above 4.0</td><td><span class="pill po">Add new creative immediately</span></td></tr>
+    <tr><td>Good ROAS (3x+) for 7+ days</td><td><span class="pill g">Scale — increase budget by 20%</span></td></tr>
+    <tr><td>Learning phase not complete</td><td><span class="pill av">Wait — don't touch anything</span></td></tr>
+    <tr><td>Spend with 0 results after 7 days</td><td><span class="pill po">Pause — diagnose before spending more</span></td></tr>
+    <tr><td>Good results suddenly drop</td><td><span class="pill av">Check frequency and audience saturation</span></td></tr>
+  </table>
+</div>
+
+<div class="footer">
+  Meta Ads Complete Performance Diary · Nepal Market · Built for HumanFit Craft<br>
+  <span style="margin-top:6px;display:block;">Save this · Refer every time you analyze your campaigns</span>
+</div>
+
+</div>
+</body>
+</html>
